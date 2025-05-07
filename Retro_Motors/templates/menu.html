@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt">
+ 
+
+ 
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro_Motors</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    {% load static %}
+</head>
+<body>
+    {% block content %}
+    {% endblock %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+        <div class="container">
+            <a class="navbar-brand" href="menu"> 
+                <img src="imagens\WhatsApp Image 2025-03-05 at 16.34.50.jpeg" alt="logo" width="50"> Carros Clássicos
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'viaturas' %}">Viaturas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Notícias e Artigos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Serviços</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% block scripts %}
+    {% endblock %}
+    <div class="container-fluid p-0">
+        <div class="text-center text-white d-flex align-items-center justify-content-center" 
+            style="background: url('https://via.placeholder.com/1920x400') no-repeat center center;
+            background-size: cover;
+            height: 400px;"></div>
+            <h1 class="text-center bg-opacity-50 p-3 rounded">ENCONTRE UM CARRO DENTRO DO SEU ORÇAMENTO!</h1>
+        </div>
+    </div>
+   
+    <div class="container mt-4 d-flex justify-content-center">
+        <div class="card p-4 shadow-lg text-center" style="max-width: 50%; width: 100%;">
+            <h2 class="mb-3">Escolha o seu orçamento</h2>
+            <input type="range" class="form-range" min="4000" max="20000" value="11000" id="priceRange">
+            <p class="mt-2">Preço: <span id="priceValue">11000€</span></p>
+            
+            <!-- Input ocupando quase toda a largura da div -->
+            <div class="d-flex justify-content-center">
+                <input type="text" class="form-control mt-2 text-center" style="width: 90%;" placeholder="Marca, Modelo, ou outra característica...">
+            </div>
+            
+            <button class="btn btn-warning mt-3">Ver todos</button>
+        </div>
+    </div>
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script para atualizar preço do slider -->
+    <script>
+        var slider = document.getElementById("priceRange");
+        var output = document.getElementById("priceValue");
+        slider.oninput = function() {
+            output.innerHTML = this.value + "€";
+        }
+    </script>
+
+    <div class="container mt-4">
+        <h3>Recomendações</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="car1.jpg" class="img-fluid">
+                <p>Lotus Esprit Turbo SE | 1990</p>
+            </div>
+            <div class="col-md-4">
+                <img src="car2.jpg" class="img-fluid">
+                <p>Peugeot 404 Cabriolet | 1967</p>
+            </div>
+            <div class="col-md-4">
+                <img src="car3.jpg" class="img-fluid">
+                <p>Ferrari 328 GTS | 1988</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-4">
+        <p>© 2024 Carros Clássicos | Contacto: +351 24...</p>
+    </footer>
+</body>
+</html>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'menu' %}">Retro Motors</a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <div class="d-flex">
+                {% if user.is_authenticated %}
+                    <span class="me-3 navbar-text">Olá, {{ user.username }}!</span>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Login</a>
+                    <a href="{% url 'signup' %}" class="btn btn-primary">Registar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+  
+
+ 
+{% block title %}Início{% endblock %}
+
+
