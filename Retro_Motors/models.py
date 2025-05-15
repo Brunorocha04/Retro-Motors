@@ -9,3 +9,21 @@ class Carro(models.Model):
 
     def __str__(self):
         return f"{self.marca} {self.modelo} ({self.ano})"
+
+class Servico(models.Model):
+    titulo = models.CharField(max_length=100)
+    descricao = models.TextField()
+    icone = models.CharField(max_length=50, blank=True, help_text="Classe do ícone (ex: bi-wrench)")
+    categoria = models.CharField(max_length=50, choices=[
+        ('restauro', 'Restauro e Mecânica'),
+        ('estetica', 'Estética e Conservação'),
+        ('documentacao', 'Documentação'),
+        ('pecas', 'Peças e Customização'),
+        ('complementar', 'Serviços Complementares'),
+        ('consultoria', 'Consultoria e Comunidade'),
+    ])
+    
+    destaque = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.titulo

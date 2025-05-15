@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from .models import Servico
 import requests
 
 
@@ -47,4 +48,7 @@ params = {
 
     
 def servicos(request):
-    return render(request, 'servicos.html')
+    servicos = Servico.objects.all()
+    return render(request, 'servicos.html', {'servicos': servicos})
+
+
