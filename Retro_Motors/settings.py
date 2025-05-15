@@ -44,7 +44,7 @@ ROOT_URLCONF = 'Retro_Motors.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'Retro_Motors', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,7 +106,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "Retro_Motors/static")]
-STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -120,3 +119,5 @@ LOGIN_URL = 'login'
 
 # Para mensagens
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+GNEWS_API_KEY = "77dbb86b4d3e4b0f2f97a305730a8df3"

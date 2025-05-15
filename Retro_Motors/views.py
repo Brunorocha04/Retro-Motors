@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 import requests
 
 
@@ -35,6 +36,15 @@ def noticias_gnews(request):
         return JsonResponse(dados)
     except Exception as e:
         return JsonResponse({'erro': 'Erro ao buscar notícias', 'detalhe': str(e)}, status=500)
+
+params = {
+    "q": "carro OR automóvel OR clássicos OR 'mundo automóvel'",
+    "lang": "pt",
+    "country": "pt",
+    "max": 10,
+    "apikey": settings.GNEWS_API_KEY
+}
+
     
 def servicos(request):
     return render(request, 'servicos.html')
