@@ -12,7 +12,7 @@
     <!-- Navbar principal -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}"> 
+            <a class="navbar-brand" href="{% url 'index' %}"> 
                 <img src="{% static 'imagens/logo.jpeg' %}" alt="logo" width="50"> Carros Clássicos
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -20,7 +20,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Início</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'viaturas' %}">Viaturas</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'noticias_artigos' %}">Notícias e Artigos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'servicos' %}">Serviços</a></li>
@@ -45,27 +45,6 @@
     <!-- Bloco principal de conteúdo -->
     <main class="container mt-4">
         {% block content %}
-        <h1 class="text-center">Bem-vindo à Retro Motors</h1>
-        <div class="position-relative text-center" style="height: 400px;">
-        <img src="https://via.placeholder.com/1920x400" alt="Banner" class="w-100 h-100 position-absolute top-0 start-0" style="object-fit: cover; z-index: 1;">
-        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style="background: rgba(0,0,0,0.5); z-index: 2;">
-            <h1 class="text-white fw-bold display-5">ENCONTRE UM CARRO DENTRO DO SEU ORÇAMENTO!</h1>
-        </div>
-    </div>
-
-    <div class="container mt-4 d-flex justify-content-center">
-        <div class="card p-4 shadow-lg text-center" style="max-width: 50%; width: 100%;">
-            <h2 class="mb-3">Escolha o seu orçamento</h2>
-            <input type="range" class="form-range" min="4000" max="20000" value="11000" id="priceRange">
-            <p class="mt-2">Preço: <span id="priceValue">11000€</span></p>
-
-            <div class="d-flex justify-content-center">
-                <input type="text" class="form-control mt-2 text-center" style="width: 90%;" placeholder="Marca, Modelo, ou outra característica...">
-            </div>
-
-            <button class="btn btn-warning mt-3">Ver todos</button>
-        </div>
-    </div>
         {% endblock %}
     </main>
 

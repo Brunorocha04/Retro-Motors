@@ -13,7 +13,7 @@ def signup_view(request):
             user = form.save()
             login(request, user)
             messages.success(request, f"Bem-vindo, {user.username}! O seu registo foi realizado com sucesso.")
-            return redirect('menu')  
+            return redirect('index')  
     else:
         form = CustomUserCreationForm()
     return render(request, 'accounts/signup.html', {'form': form})
@@ -29,7 +29,7 @@ def login_view(request):
                 login(request, user)
                 messages.success(request, f"Bem-vindo de volta, {username}!")
                 # Redireciona para a página solicitada ou para a página inicial
-                next_page = request.GET.get('next', 'menu')
+                next_page = request.GET.get('next', 'index')
                 return redirect(next_page)
         else:
             messages.error(request, "Nome de utilizador ou password inválidos.")
@@ -42,3 +42,5 @@ def logout_view(request):
     messages.info(request, "Saiu do sistema.")
     return redirect('login')
 
+def index(request):
+    return render(request, 'accounts/index.html')
