@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Carros</title>
+</head>
+<body>
+    <h1>Lista de Carros</h1>
+    <ul>
+        {% for carro in carros %}
+            <li>
+                <h2>{{ carro.marca }} {{ carro.modelo }} - R$ {{ carro.preco }}</h2>
+                <img src="{{ carro.imagem.url }}" alt="{{ carro.modelo }}" style="width:200px;">
+                <p>{{ carro.descricao }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

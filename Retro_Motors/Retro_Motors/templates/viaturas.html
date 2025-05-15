@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Veículos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <aside class="col-md-3">
+                <h4>Filtros de pesquisa</h4>
+                <input type="text" class="form-control mb-2" placeholder="Marca, Modelo, Característica...">
+                <button class="btn btn-secondary w-100 mb-3">Restaurar pesquisa</button>
+                
+                <div class="accordion" id="filters">
+                    {% for filtro in filtros %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter{{ forloop.counter }}">
+                                {{ filtro }}
+                            </button>
+                        </h2>
+                        <div id="filter{{ forloop.counter }}" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <input type="checkbox"> Opção 1<br>
+                                <input type="checkbox"> Opção 2
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="btn btn-warning w-100 mt-3">Ver Resultados</button>
+            </aside>
+            
+            <section class="col-md-9">
+                {% for veiculo in veiculos %}
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ veiculo.imagem.url }}" class="img-fluid rounded-start" alt="Imagem do veículo">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ veiculo.nome }}</h5>
+                                <p class="card-text">{{ veiculo.descricao }}</p>
+                                <p class="card-text">
+                                    <small class="text-muted">Ano: {{ veiculo.ano }} | {{ veiculo.km }} km | {{ veiculo.combustivel }}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}
