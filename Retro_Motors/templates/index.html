@@ -5,7 +5,9 @@
 
 {% block content %}
     <div class="position-relative text-center" style="height: 400px;">
-        <img src="https://via.placeholder.com/1920x400" alt="Banner" class="w-100 h-100 position-absolute top-0 start-0" style="object-fit: cover; z-index: 1;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Vintage_cars_parking.jpg/1280px-Vintage_cars_parking.jpg"
+        alt="Banner" class="w-100 h-100 position-absolute top-0 start-0" style="object-fit: cover; z-index: 1;">
+
         <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style="background: rgba(0,0,0,0.5); z-index: 2;">
             <h1 class="text-white fw-bold display-5">ENCONTRE UM CARRO DENTRO DO SEU ORÇAMENTO!</h1>
         </div>
@@ -14,8 +16,8 @@
     <div class="container mt-4 d-flex justify-content-center">
         <div class="card p-4 shadow-lg text-center" style="max-width: 50%; width: 100%;">
             <h2 class="mb-3">Escolha o seu orçamento</h2>
-            <input type="range" class="form-range" min="4000" max="20000" value="11000" id="priceRange">
-            <p class="mt-2">Preço: <span id="priceValue">11000€</span></p>
+            <input type="range" class="form-range" min="20000" max="450000" value="100000" id="priceRange">
+            <p class="mt-2">Preço: <span id="priceValue">100000€</span></p>
 
             <div class="d-flex justify-content-center">
                 <input type="text" class="form-control mt-2 text-center" style="width: 90%;" placeholder="Marca, Modelo, ou outra característica...">
@@ -26,22 +28,22 @@
     </div>
 
     <div class="container mt-5">
-        <h3>Recomendações</h3>
-        <div class="row text-center">
-            <div class="col-md-4">
-                <img src="{% static 'car1.jpg' %}" class="img-fluid rounded mb-2">
-                <p>Lotus Esprit Turbo SE | 1990</p>
-            </div>
-            <div class="col-md-4">
-                <img src="{% static 'car2.jpg' %}" class="img-fluid rounded mb-2">
-                <p>Peugeot 404 Cabriolet | 1967</p>
-            </div>
-            <div class="col-md-4">
-                <img src="{% static 'car3.jpg' %}" class="img-fluid rounded mb-2">
-                <p>Ferrari 328 GTS | 1988</p>
-            </div>
+    <h3>Recomendações de Hoje</h3>
+    <div class="row text-center">
+        {% for carro in destaques %}
+        <div class="col-md-4 mb-4">
+            {% if carro.imagem %}
+                <img src="{{ carro.imagem.url }}" class="img-fluid rounded mb-2" alt="{{ carro }}">
+            {% else %}
+                <img src="{% static 'img/placeholder_car.png' %}" class="img-fluid rounded mb-2" alt="Imagem não disponível">
+            {% endif %}
+            <p><strong>{{ carro.marca }} {{ carro.modelo }}</strong> | {{ carro.ano }}</p>
+            <p><i class="bi bi-cash-coin"></i> {{ carro.preco|floatformat:0 }}€</p>
         </div>
+        {% endfor %}
     </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -49,7 +51,35 @@
     var slider = document.getElementById("priceRange");
     var output = document.getElementById("priceValue");
     slider.oninput = function() {
-        output.innerHTML = this.value + "€";
+        output.innerHTML = parseInt(this.value).toLocaleString('pt-PT') + "€";
     }
 </script>
+{% block scripts %}
+<script>
+    var slider = document.getElementById("priceRange");
+    var output = document.getElementById("priceValue");
+    slider.oninput = function() {
+        output.innerHTML = parseInt(this.value).toLocaleString('pt-PT') + "€";
+    }
+
+    // 🔻 Chamada à API
+    fetch('/api/carros-destaque')
+        .then(response => response.json())
+        .then(data => {
+            const container = document.querySelector('.row.text-center');
+            container.innerHTML = '';
+            data.forEach(carro => {
+                const div = document.createElement('div');
+                div.classList.add('col-md-4', 'mb-4');
+                div.innerHTML = `
+                    <img src="${carro.imagem || '/static/img/placeholder_car.png'}" class="img-fluid rounded mb-2" alt="${carro.marca}">
+                    <p><strong>${carro.marca} ${carro.modelo}</strong> | ${carro.ano}</p>
+                    <p><i class="bi bi-cash-coin"></i> ${parseFloat(carro.preco).toLocaleString('pt-PT')}€</p>
+                `;
+                container.appendChild(div);
+            });
+        });
+</script>
+
 {% endblock %}
+
