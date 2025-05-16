@@ -10,7 +10,6 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('carros/', include('carros.urls')),
-    path('', base, name='home'), 
     path('', views.index, name='index'),
     path('accounts/', include('accounts.urls')),
     path('api/noticias-artigos/', noticias_gnews, name='noticias_artigos'),

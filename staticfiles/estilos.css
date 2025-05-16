@@ -1,0 +1,30 @@
+/* static/css/estilo.css */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.banner-container {
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.login-overlay {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+}

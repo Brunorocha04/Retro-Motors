@@ -16,9 +16,6 @@ import requests
 def base(request):
     return render(request, 'base.html')  
 
-def index(request):
-    return HttpResponse(request, 'index.html')
-
 def home(request):
     return render(request, 'home.html')
 
@@ -100,7 +97,7 @@ def carros_api_view(request):
 def index(request):
     random.seed(date.today().toordinal())  # semente diária
 
-    viaturas = list(Viatura.objects.all())
+    viaturas = list(Carro.objects.all())
     destaques = random.sample(viaturas, min(3, len(viaturas)))  # escolhe até 3
 
     return render(request, 'index.html', {'destaques': destaques})
