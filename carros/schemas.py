@@ -1,10 +1,14 @@
-# schemas.py
-from ninja import Schema
+# carros/schemas.py
+from pydantic import BaseModel
 
-class CarroSchema(Schema):
+class CarroSchema(BaseModel):
     id: int
     marca: str
     modelo: str
     ano: int
     preco: float
-    imagem: str  # URL
+    imagem: str
+    descricao: str
+    km: int
+    combustivel: str
+

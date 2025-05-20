@@ -47,52 +47,45 @@ def servicos(request):
     servicos = Servico.objects.all()
     return render(request, 'servicos.html', {'servicos': servicos})
 
-
-def carros_api_view(request):
-    modelo = request.GET.get('q', 'camry')  # busca pelo modelo inserido na barra de pesquisa
-    marcas_ativas = request.GET.getlist('marcas')
-    # Chave da API e endpoint
-    api_key = '/J4nUagNBnBu/9hj+RyKEQ==FrK66CJXXddHnS7q'  # <- substitui pela tua chave da API
-    url = f'https://api.api-ninjas.com/v1/cars?model={modelo}'
-
+def viaturas(request):
+    url = "https://api-ninjas.com/profile"
     headers = {
-        'X-Api-Key': api_key
+        "X-Api-Key": "/J4nUagNBnBu/9hj+RyKEQ==FrK66CJXXddHnS7q"
     }
 
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
-        dados = response.json()
-        print("RESULTADO API:", dados)
-        print("RESPOSTA BRUTA:", response.text)
-
-        # Aplicar filtro por marcas, se houver
-        if marcas_ativas:
-            dados = [carro for carro in dados if carro['make'] in marcas_ativas]
-
-        # Lista única de marcas para os filtros
-        marcas_disponiveis = sorted(set(carro['make'] for carro in dados))
-
-        # Simular campos extra para o template (imagens, descrição, km, etc.)
-        for carro in dados:
-            carro['marca'] = carro['make']
-            carro['modelo'] = carro['model']
-            carro['descricao'] = carro.get('class', 'Sem descrição')
-            carro['ano'] = carro.get('year', 'N/A')
-            carro['km'] = 100000  # valor fictício
-            carro['combustivel'] = carro.get('fuel_type', 'Gasolina')
-            carro['imagem'] = f"https://via.placeholder.com/150?text={carro['make']}+{carro['model']}"
-
+        api_data = response.json()
     else:
-        dados = []
-        marcas_disponiveis = []
+        api_data = []
 
-    context = {
-    'veiculos': dados,
-    'marcas_disponiveis': marcas_disponiveis,
-    'marcas_ativas': marcas_ativas,
-}
-    return render(request, 'viaturas.html', context)
+    # Mapeia os dados no formato esperado pelo template
+    veiculos = []
+    for car in api_data:
+        veiculos.append({
+            'marca': car.get('make', 'Desconhecida'),
+            'modelo': car.get('model', 'Desconhecido'),
+            'ano': car.get('year', 'N/A'),
+            'combustivel': car.get('fuel_type', 'N/A'),
+            'km': 'N/A',  # A API do Ninja Cars não tem km
+            'descricao': f"{car.get('make')} {car.get('model')} ({car.get('class')})",
+            'imagem': 'https://cdn.pixabay.com/photo/2012/05/29/00/43/car-49278_1280.jpg'  # Imagem genérica
+        })
+
+    # Marcas disponíveis e marcas ativas dos filtros
+    marcas_disponiveis = list(set([v['marca'] for v in veiculos]))
+    marcas_ativas = request.GET.getlist("marcas")
+
+    # Filtro por marcas
+    if marcas_ativas:
+        veiculos = [v for v in veiculos if v['marca'] in marcas_ativas]
+        
+    return render(request, 'viaturas.html', {
+        'veiculos': veiculos,
+        'marcas_disponiveis': marcas_disponiveis,
+        'marcas_ativas': marcas_ativas
+    })
 
 def index(request):
     random.seed(date.today().toordinal())  # semente diária
